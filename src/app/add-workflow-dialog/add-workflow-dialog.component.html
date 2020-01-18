@@ -1,0 +1,91 @@
+<h1 mat-dialog-title style="text-align: center;">Add Workflow</h1>
+<div mat-dialog-content>
+    <mat-horizontal-stepper [linear]=true #stepper>
+        <mat-step [stepControl]="generalWorkflowForm">
+            <form [formGroup]="generalWorkflowForm">
+                <ng-template matStepLabel>General Information</ng-template>
+                <mat-form-field class="full-width-field">
+                    <input matInput placeholder="Template Name" formControlName="templateName" required>
+                    <mat-error>You must enter a name</mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width-field">
+                    <textarea matInput placeholder="Description" formControlName="description" required></textarea>
+                    <mat-error>You must enter a description</mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="WorkflowTypeForm">
+            <form [formGroup]="WorkflowTypeForm">
+                <ng-template matStepLabel>Workflow Type</ng-template>
+                <mat-form-field class="full-width-field">
+                    <mat-select placeholder="Choose Workflow type" formControlName="workflowType" required #type>
+                        <mat-option value="awx">AWX Playbook</mat-option>
+                        <mat-option value="python">Python Script </mat-option>
+                        <mat-option value="powershell">Powershell Script </mat-option>
+                    </mat-select>
+                    <mat-error>You must enter a value</mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width-field" *ngIf="type.value == 'awx'">
+                    <input matInput placeholder="AWX Job Template ID" formControlName="template_id" numbersOnly
+                        required>
+                    <mat-error>You must enter a ID</mat-error>
+                </mat-form-field>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step [stepControl]="WorkflowDetailsForm">
+            <form [formGroup]="WorkflowDetailsForm">
+                <ng-template matStepLabel>Workflow Details</ng-template>
+                <mat-form-field class="full-width-field">
+                    <mat-select placeholder="Choose Workflow type" formControlName="permissions" required>
+                        <mat-option value="all">All Users</mat-option>
+                        <mat-option value="admins">Administrators</mat-option>
+                    </mat-select>
+                    <mat-error>You must enter a value</mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width-field">
+                    <mat-select placeholder="Choose Workflow State" formControlName="state" required>
+                        <mat-option value="dev">In Development</mat-option>
+                        <mat-option value="prod">Production</mat-option>
+                    </mat-select>
+                    <mat-error>You must enter a value</mat-error>
+                </mat-form-field>
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Workflow Inputs
+                            </mat-panel-title>
+                            <mat-panel-description>
+                               Add Workflows Input
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+
+                        <mat-form-field>
+                            <input matInput placeholder="Input Name">
+                        </mat-form-field>
+
+                        <mat-form-field>
+                            <input matInput placeholder="Value">
+                        </mat-form-field>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button color='primary'>Submit</button>
+                </div>
+            </form>
+        </mat-step>
+    </mat-horizontal-stepper>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-raised-button (click)="close()">Exit</button>
+</div>
